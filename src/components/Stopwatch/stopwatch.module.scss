@@ -23,6 +23,12 @@
     font-size: 2rem;
   }
 
+  .buttonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
   button {
     background-color: #88bcd1;
     border-radius: 10px;

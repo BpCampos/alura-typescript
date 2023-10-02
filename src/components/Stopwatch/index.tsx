@@ -12,6 +12,8 @@ interface Props {
 
 export default function Stopwatch({ selecionado, finalizarTarefa }: Props) {
   const [tempo, setTempo] = useState<number>()
+  const [parar, setParar] = useState(false)
+  const [interv, setInterv] = useState<any>()
 
   useEffect(() => {
     if (selecionado?.tempo) {
@@ -20,14 +22,30 @@ export default function Stopwatch({ selecionado, finalizarTarefa }: Props) {
   }, [selecionado])
 
   function regressiva(contador: number = 0) {
-    setTimeout(() => {
-      if (contador > 0) {
-        setTempo(contador - 1)
-        return regressiva(contador - 1)
-      }
-      finalizarTarefa()
-    }, 1000)
+    if (contador > 0) {
+      setInterv(
+        setInterval(() => {
+          setTempo((tempoAnterior = 0) => tempoAnterior - 1)
+          contador -= 1
+          if (contador <= 0) {
+            finalizarTarefa()
+          }
+        }, 1000)
+      )
+    }
   }
+
+  function end(contador: number = 0) {
+    if (contador <= 0) {
+      clearInterval(interv)
+    }
+  }
+
+  function stop() {
+    clearInterval(interv)
+  }
+
+  end(tempo)
 
   return (
     <div className={styles.cronometro}>
@@ -35,7 +53,10 @@ export default function Stopwatch({ selecionado, finalizarTarefa }: Props) {
       <div className={styles.relogioWrapper}>
         <Clock tempo={tempo} />
       </div>
-      <Button onClick={() => regressiva(tempo)} texto="Começar" />
+      <div className={styles.buttonWrapper}>
+        <Button onClick={() => regressiva(tempo)} texto="Começar" />
+        <Button onClick={() => stop()} texto="Parar" />
+      </div>
     </div>
   )
 }
