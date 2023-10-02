@@ -12,7 +12,6 @@ interface Props {
 
 export default function Stopwatch({ selecionado, finalizarTarefa }: Props) {
   const [tempo, setTempo] = useState<number>()
-  const [parar, setParar] = useState(false)
   const [interv, setInterv] = useState<any>()
 
   useEffect(() => {
