@@ -18,6 +18,9 @@ export default function Stopwatch({ selecionado, finalizarTarefa }: Props) {
     if (selecionado?.tempo) {
       setTempo(tempoParaSegundos(String(selecionado?.tempo)))
     }
+    if (selecionado?.selecionado) {
+      setTempo(0)
+    }
   }, [selecionado])
 
   function regressiva(contador: number = 0) {
